@@ -1,0 +1,15 @@
+.error {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    user-select: none;
+}
+
+.errorIcon {
+    color: red;
+    font-size: 15rem;
+}
+
+.error span {
+    font-size: 2rem;
+}

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 import Header from '../../components/Header'
 import Title from '../../components/Title'
@@ -6,15 +6,20 @@ import Title from '../../components/Title'
 import { FiUser } from 'react-icons/fi'
 
 import { db } from '../../services/firebaseConnection'
-import { addDoc, collection } from 'firebase/firestore'
+import { addDoc, collection, query, getDocs, onSnapshot } from 'firebase/firestore'
 
 import { toast } from 'react-toastify'
+
+const listRef = collection(db, 'customers')
 
 function Customers() {
 
     const [nome, setNome] = useState('')
     const [cnpj, setCnpj] = useState('')
     const [endereco, setEndereco] = useState('')
+
+    // Clientes
+    const [clientes, setClientes] = useState()
 
 
     async function handleRegister(e) {
@@ -39,9 +44,31 @@ function Customers() {
         } else {
             toast.error("Erro ao fazer o cadastro.")
         }
-
-
     }
+
+    useEffect(() => {
+
+        // Aqui, substituímos o getDocs por onSnapshot
+        const unsub = onSnapshot(listRef, (snapshot) => {
+            let lista = []
+
+            snapshot.forEach((doc) => {
+                lista.push({
+                    id: doc.id,
+                    nomeFantasia: doc.data().nomeFantasia,
+                    cnpj: doc.data().cnpj,
+                    endereco: doc.data().endereco,
+                })
+            })
+
+            setClientes(lista)
+        })
+
+        return () => unsub()
+
+    }, [])
+
+    console.log(clientes)
 
     return (
         <div>
@@ -81,11 +108,41 @@ function Customers() {
                         />
 
                         <button type="submit">
-                            Salvar
+                            Cadastrar
                         </button>
                     </form>
                 </div>
+
+                <div className="container">
+                    {clientes && clientes.length > 0 ? (
+                        <table className="clientes-table">
+                            <thead>
+                                <tr>
+                                    <th>Nome Fantasia</th>
+                                    <th>CNPJ</th>
+                                    <th>Endereço</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {clientes.map((item) => (
+                                    <tr key={item.id}>
+                                        <td>{item.nomeFantasia}</td>
+                                        <td>{item.cnpj}</td>
+                                        <td>{item.endereco}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    ) : (
+                        <p>Nenhum cliente cadastrado.</p>
+                    )}
+                </div>
+
+
             </div>
+
+
+
         </div>
     )
 }

@@ -119,9 +119,9 @@ function Profile() {
 
                             <input type="file" accept="image/*" onChange={handleFile} /> <br />
                             {avatarUrl === null ? (
-                                <img src={avatar} alt="Foto de perfil" width={250} height={250} />
+                                <img src={avatar} alt="Foto de perfil"/>
                             ) : (
-                                <img src={avatarUrl} alt="Foto de perfil" width={250} height={250} />
+                                <img src={avatarUrl} alt="Foto de perfil"/>
                             )}
 
                         </label>

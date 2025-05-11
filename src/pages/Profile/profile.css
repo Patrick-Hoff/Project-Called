@@ -17,6 +17,12 @@
     cursor: pointer;
 }
 
+.label-avatar img {
+    border-radius: 50%;
+    width: 260px;
+    height: 250px;
+}
+
 .label-avatar input {
     display: none;   
 }
@@ -26,6 +32,7 @@
     position: absolute;
     opacity: 0.7;
     transition: all 0.5s;
+    margin-top: 40px;
 }
 
 .label-avatar span:hover {

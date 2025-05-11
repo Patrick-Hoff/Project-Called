@@ -28,8 +28,6 @@ function Dashboard() {
     const [detail, setDetail] = useState()
 
 
-    const { logout } = useContext(AuthContext)
-
     useEffect(() => {
         async function loadChamados() {
             const q = query(listRef, orderBy('created', 'desc'), limit(5))

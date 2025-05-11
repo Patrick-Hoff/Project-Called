@@ -24,3 +24,5 @@ dist-ssr
 *.sw?
 
 src/services/firebaseConnection.jsx
+# Local Netlify folder
+.netlify
