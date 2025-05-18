@@ -4,6 +4,8 @@ import Header from '../../components/Header'
 import Title from '../../components/Title'
 
 import { FiUser } from 'react-icons/fi'
+import { InputMask } from 'primereact/inputmask';
+
 
 import { db } from '../../services/firebaseConnection'
 import { addDoc, collection, query, getDocs, onSnapshot } from 'firebase/firestore'
@@ -38,7 +40,6 @@ function Customers() {
                     toast.success("Empresa registrada!");
                 })
                 .catch((error) => {
-                    console.log(error)
                     toast.error("Erro ao fazer o cadastro.");
                 })
         } else {
@@ -68,7 +69,6 @@ function Customers() {
 
     }, [])
 
-    console.log(clientes)
 
     return (
         <div>
@@ -92,11 +92,11 @@ function Customers() {
                         />
 
                         <label>CNPJ</label>
-                        <input
+                        <InputMask
                             type='text'
-                            placeholder='Digite o CNPJ'
-                            value={cnpj}
-                            onChange={(e) => setCnpj(e.target.value)}
+                            placeholder='CNPJ'
+                            onChange={e => setCnpj(e.target.value)}
+                            mask="99.999.999/9999-99"
                         />
 
                         <label>Endereço</label>

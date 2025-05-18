@@ -48,8 +48,6 @@ function New() {
                     })
 
                     if (snapshot.docs.size === 0) {
-                        console.log("nenhuma empresa emcontrada")
-                        setCustomers([{ id: '1', nomeFantasia: 'FREELA' }])
                         setLoadCustomers(false)
                         return;
                     }
@@ -63,7 +61,6 @@ function New() {
 
                 })
                 .catch((error) => {
-                    console.log(error)
                     setLoadCustomers(false);
                     setCustomers([{ id: '1', nomeFantasia: 'FREELA' }])
                 })
@@ -86,7 +83,6 @@ function New() {
 
             })
             .catch((error) => {
-                console.log(error)
                 setIdCustomer(false)
             })
     }
@@ -108,6 +104,12 @@ function New() {
     async function handleRegister(e) {
         e.preventDefault();
 
+        if (customers.length === 0 || !customers[customerSelected]) {
+            toast.error('Selecione um cliente válido!');
+            return;
+        }
+
+
         if (idCustomer) {
             // Atualizando chamado
             const docRef = doc(db, 'chamados', id)
@@ -119,16 +121,16 @@ function New() {
                 status: status,
                 userId: user.uid,
             })
-            .then(() => {
-                toast.info('Chamado atualizado com sucesso!')
-                setCustomersSelecter(0);
-                setComplemento('');
-                navigate('/dashboard');
-            })
-            .catch((error) => {
-                console.log(error)
-                toast.error('Ops erro ao atualizar esse chamado!')
-            })
+                .then(() => {
+                    toast.info('Chamado atualizado com sucesso!')
+                    setCustomersSelecter(0);
+                    setComplemento('');
+                    navigate('/dashboard');
+                })
+                .catch((error) => {
+                    console.log(error)
+                    toast.error('Ops erro ao atualizar esse chamado!')
+                })
             return;
         }
 
@@ -150,8 +152,7 @@ function New() {
                 navigate('/dashboard');
             })
             .catch((error) => {
-                toast.error('Ops erro ao regostrar, tente mais tarde!')
-                console.log(error);
+                toast.error('Ops erro ao registrar, tente mais tarde!')
             })
     }
 
